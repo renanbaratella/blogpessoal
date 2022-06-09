@@ -26,6 +26,9 @@ public class Tema {
 	@NotBlank(message = "O atributo Descrição é obrigatório e não pode conter espaços em branco")
 	private String descricao;
 
+	
+	// mappedby é o references no bd.
+	
 	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("tema")
 	private List<Postagem> postagem;
