@@ -159,20 +159,5 @@ public class UsuarioControllerTest {
 		assertEquals(HttpStatus.OK, resposta.getStatusCode());
 	}
 	
-	@Test
-	@DisplayName("Apagar Usuário!")
-	@Order(7)
-	public void deveApagarUmUsuario() {
-		
-        Optional<Usuario> usuarioBusca = usuarioService.cadastrarUsuario(new Usuario(0L, 
-				"Flávio Lemosss", "flavio_lemoss@email.com.br", "flavio1234555555", "https://i.imgur.com/EcJG8kB.jpg"));
-
-		ResponseEntity<String> resposta = testRestTemplate
-				.withBasicAuth("root", "root")
-				.exchange("/usuarios/delete/" + usuarioBusca.get().getId(), HttpMethod.DELETE, null, String.class);
-		assertEquals(HttpStatus.NO_CONTENT, resposta.getStatusCode());
-		
-	}
-	
 	
 }

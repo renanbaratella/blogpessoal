@@ -16,6 +16,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Entity
 @Table(name = "tb_usuarios")
 public class Usuario {
@@ -29,20 +31,9 @@ public class Usuario {
 
 	@NotNull(message = "O atributo Usuário é Obrigatório!")
 	@Email(message = "O atributo Usuário deve ser um email válido!")
+	@Schema(example = "email@email.com.br")
 	private String usuario;
 
-	/**
-	 * A anotação @Size está definida apenas com o valor min
-	 * porque ao criptografar a senha a mesma terá uma tamanho
-	 * muito maior (em numero de caracteres) do que a senha
-	 * não ciptografada.
-	 * 
-	 * Exemplo: admin123 -> 8 caracteres
-	 * admin123 criptografado -> 60 caracteres
-	 * 
-	 * A anotação @NotBlank indica que o atributo não deve ser
-	 * nulo e/ou conter espaços em branco.
-	 */
 	@NotBlank(message = "O atributo Senha é Obrigatório!")
 	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
 	private String senha;
