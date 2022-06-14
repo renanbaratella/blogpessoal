@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
@@ -32,7 +33,7 @@ public class PostagemController {
 
 	@Autowired
 	private TemaRepository temaRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
@@ -93,13 +94,19 @@ public class PostagemController {
 
 	@PutMapping
 	public ResponseEntity<Postagem> putPostagem(@Valid @RequestBody Postagem postagem) {
-		if (temaRepository.existsById(postagem.getTema().getId()) && usuarioRepository.existsById(postagem.getUsuario().getId())) {
+		
+		if (!temaRepository.existsById(postagem.getTema().getId()) && !usuarioRepository.existsById(postagem.getUsuario().getId()))
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "tema e usuario não existe");
+		
+		if (!temaRepository.existsById(postagem.getTema().getId()))
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "tema não existe!!");
 
-			return postagemRepository.findById(postagem.getId()).map(resposta -> ResponseEntity.ok(postagemRepository.save(postagem)))
-					.orElse(ResponseEntity.notFound().build());
-		}
+		if (!usuarioRepository.existsById(postagem.getUsuario().getId()))
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "usuario não existe!!", null);
 
-		return ResponseEntity.badRequest().build();
+		return postagemRepository.findById(postagem.getId())
+				.map(resposta -> ResponseEntity.ok(postagemRepository.save(postagem)))
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@DeleteMapping("/{id}")
