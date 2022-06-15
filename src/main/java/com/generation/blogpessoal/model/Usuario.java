@@ -111,4 +111,13 @@ public class Usuario {
 		this.postagem = postagem;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nome=" + nome + ", usuario=" + usuario + ", senha=" + senha + ", foto=" + foto
+				+ ", postagem=" + postagem + "]";
+	}
+	
+	
+	
+
 }
