@@ -40,19 +40,12 @@ public class Usuario {
 
 	private String foto;
 
-	/**
-	 * CascadeType.REMOVE -> Ele propaga a operação de remoção de um objeto Pai para um 
-	 * objeto Filho. 
-	 * Apenas quando remover a Entidade Usuario, também será removida todas as entidades 
-	 * Postagens associadas. Nas demais operações não haverá a propagação.
-	 * 
-	 * CascadeType.ALL -> Ele propaga todas a operações (Inserir, Listar, Atualizar e Apagar)
-	 * de um objeto Pai para um objeto Filho. 
-	 */
+	private String tipo;
+
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
-	
+
 	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
 		this.id = id;
 		this.nome = nome;
@@ -61,7 +54,8 @@ public class Usuario {
 		this.foto = foto;
 	}
 
-	public Usuario() {	}
+	public Usuario() {
+	}
 
 	public Long getId() {
 		return id;
@@ -103,6 +97,14 @@ public class Usuario {
 		this.foto = foto;
 	}
 
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	public List<Postagem> getPostagem() {
 		return postagem;
 	}
@@ -110,14 +112,5 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", usuario=" + usuario + ", senha=" + senha + ", foto=" + foto
-				+ ", postagem=" + postagem + "]";
-	}
-	
-	
-	
 
 }
